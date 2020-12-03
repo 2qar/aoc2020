@@ -1,3 +1,5 @@
+import Text.Printf
+
 treesHit :: (Int, Int) -> (Int, Int) -> [String] -> Int
 treesHit (x, y) (dx, dy) m
         | y < length m = hit + treesHit (nx, y + dy) (dx, dy) m
@@ -13,5 +15,5 @@ slopes = [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]
 
 main = do
         inp <- getContents
-        putStrLn $ (++) "Silver: " $ show $ solve [(3, 1)] $ lines inp
-        putStrLn $ (++) "Gold:   " $ show $ solve slopes $ lines inp
+        printf "Silver: %d\n" $ solve [(3, 1)] $ lines inp
+        printf "Gold:   %d\n" $ solve slopes $ lines inp
