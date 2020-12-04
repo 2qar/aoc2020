@@ -7,13 +7,8 @@ contains sub s
         | otherwise                 = (isPrefixOf sub s) || (contains sub $ tail s)
 
 valid1 :: String -> Bool
-valid1 s = (contains "byr:" s) &&
-           (contains "iyr:" s) &&
-           (contains "eyr:" s) &&
-           (contains "hgt:" s) &&
-           (contains "hcl:" s) &&
-           (contains "ecl:" s) &&
-           (contains "pid:" s)
+valid1 s = foldl (&&) True [contains f s | f <- fs]
+        where fs = ["byr:", "iyr:", "eyr:", "hgt:", "hcl:", "ecl:", "pid:"]
 
 validByr :: Int -> Bool
 validByr y = (length $ show y) == 4 && y >= 1920 && y <= 2002
