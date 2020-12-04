@@ -1,7 +1,9 @@
+import Text.Printf
+
 type Policy = ([Int], Char, String)
 
 xor :: Bool -> Bool -> Bool
-xor c1 c2 = (c1 == True && c2 == False) || (c1 == False && c2 == True)
+xor c1 c2 = c1 /= c2
 
 -- "1-2" -> [1,2]
 range :: String -> [Int]
@@ -25,4 +27,9 @@ solve valid ps = length
                 $ filter (\c -> c == True)
                 $ map valid ps
 
-main = interact $ show . solve valid2 . map parsePolicy . lines
+main = do
+    ss <- getContents
+    let ps = map parsePolicy $ lines ss
+
+    printf "Silver: %d\n" $ solve valid1 ps
+    printf "Gold:   %d\n" $ solve valid2 ps
