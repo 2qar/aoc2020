@@ -10,14 +10,17 @@ valid1 :: String -> Bool
 valid1 s = foldl (&&) True [contains f s | f <- fs]
         where fs = ["byr:", "iyr:", "eyr:", "hgt:", "hcl:", "ecl:", "pid:"]
 
-validByr :: Int -> Bool
-validByr y = (length $ show y) == 4 && y >= 1920 && y <= 2002
+validByr :: String -> Bool
+validByr s = (length s) == 4 && y >= 1920 && y <= 2002
+        where y = read s
 
-validIyr :: Int -> Bool
-validIyr y = (length $ show y) == 4 && y >= 2010 && y <= 2020
+validIyr :: String -> Bool
+validIyr s = (length s) == 4 && y >= 2010 && y <= 2020
+        where y = read s
 
-validEyr :: Int -> Bool
-validEyr y = (length $ show y) == 4 && y >= 2020 && y <= 2030
+validEyr :: String -> Bool
+validEyr s = (length s) == 4 && y >= 2020 && y <= 2030
+        where y = read s
 
 validHgt :: String -> Bool
 validHgt s
@@ -38,9 +41,9 @@ validPid s = (length [c | c <- s, c `elem` ['0'..'9']]) == 9
 validFields :: [String] -> Bool
 validFields fs
         | null fs    = True -- bad
-        | f == "byr" = (validByr $ read v) && validFields n
-        | f == "iyr" = (validIyr $ read v) && validFields n
-        | f == "eyr" = (validEyr $ read v) && validFields n
+        | f == "byr" = (validByr v) && validFields n
+        | f == "iyr" = (validIyr v) && validFields n
+        | f == "eyr" = (validEyr v) && validFields n
         | f == "hgt" = (validHgt v) && validFields n
         | f == "hcl" = (validHcl v) && validFields n
         | f == "ecl" = (validEcl v) && validFields n
