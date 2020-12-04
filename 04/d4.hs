@@ -6,15 +6,14 @@ contains sub s
         | (length sub) > (length s) = False
         | otherwise                 = (isPrefixOf sub s) || (contains sub $ tail s)
 
-valid1 :: String -> Int
-valid1 s = fromEnum
-        $ (contains "byr:" s) &&
-          (contains "iyr:" s) &&
-          (contains "eyr:" s) &&
-          (contains "hgt:" s) &&
-          (contains "hcl:" s) &&
-          (contains "ecl:" s) &&
-          (contains "pid:" s)
+valid1 :: String -> Bool
+valid1 s = (contains "byr:" s) &&
+           (contains "iyr:" s) &&
+           (contains "eyr:" s) &&
+           (contains "hgt:" s) &&
+           (contains "hcl:" s) &&
+           (contains "ecl:" s) &&
+           (contains "pid:" s)
 
 validByr :: Int -> Bool
 validByr y = (length $ show y) == 4 && y >= 1920 && y <= 2002
@@ -57,13 +56,13 @@ validFields fs
               v = drop 1 $ dropWhile (\c -> c /= ':') (head fs)
               n = tail fs
 
-valid2 :: String -> Int
-valid2 s = fromEnum $ (toEnum $ valid1 s) && (validFields $ words s)
+valid2 :: String -> Bool
+valid2 s = (valid1 s) && (validFields $ words s)
 
-solve :: (String -> Int) -> [String] -> Int
+solve :: (String -> Bool) -> [String] -> Int
 solve valid s
     | null s    = 0
-    | otherwise = (valid c) + solve valid n
+    | otherwise = (fromEnum $ valid c) + solve valid n
     where c = unwords $ takeWhile (\l -> not (null l)) s
           n = drop 1 $ dropWhile (\l -> not (null l)) s
 
