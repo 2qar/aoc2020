@@ -18,9 +18,5 @@ main = do
     s <- getContents
     let gs = groups $ lines s
 
-    mapM_ print $ zip (map allYes gs) gs
-    print $ length gs
-
     printf "Silver: %d\n" $ sum $ map someYes gs
-    -- FIXME: off by one, but (length gs) is right, so allYes is wrong ONCE
     printf "Gold:   %d\n" $ sum $ map allYes gs
