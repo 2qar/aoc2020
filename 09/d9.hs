@@ -16,8 +16,25 @@ firstInvalid ns
     where cs = combos $ take 25 ns
           n  = head $ drop 25 ns
 
+sumRange :: [Int] -> [Int] -> Int -> [Int]
+sumRange ns acc n
+    | null ns      = []
+    | sum acc > n  = []
+    | sum acc == n = acc
+    | otherwise    = sumRange (tail ns) ((head ns) : acc) n
+
+invalidSum :: [Int] -> Int -> [Int]
+invalidSum ns n
+    | null ns      = []
+    | not (null r) = r
+    | otherwise    = invalidSum (tail ns) n
+    where r = sumRange ns [] n
+
 main = do
     s <- getContents
     let ns = map read $ lines s
 
-    printf "Silver: %d\n" $ firstInvalid ns
+    let invalid = firstInvalid ns
+    printf "Silver: %d\n" invalid
+    let ir = invalidSum ns invalid
+    printf "Gold:   %d\n" ((minimum ir) + (maximum ir))
